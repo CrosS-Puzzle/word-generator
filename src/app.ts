@@ -1,9 +1,9 @@
 import express, { Request, Response, json, urlencoded } from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
-import MongoManager from './services/mongoose/mongoose';
 import { ConnectOptions } from 'mongoose';
-import { test } from './test';
+import dotenv from 'dotenv';
+
+import MongoManager from './services/mongoose/mongoose';
 
 class App {
   private app: express.Application;
@@ -39,7 +39,6 @@ class App {
 
   private routes() {
     this.app.get('/', async (request: Request, response: Response) => {
-      const res = await test();
       response.send('Hello World!');
     });
   }
