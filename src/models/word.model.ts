@@ -2,7 +2,13 @@ import mongoose from 'mongoose';
 
 import { Category } from '../types/category';
 
-const wordSchema = new mongoose.Schema({
+interface IUser {
+  value: string;
+  category: Category;
+  description: string;
+}
+
+const wordSchema = new mongoose.Schema<IUser>({
   value: {
     type: String,
     required: true,
@@ -22,7 +28,7 @@ let Word: any = null;
 if (mongoose.models.Word !== undefined) {
   Word = mongoose.models.Word;
 } else {
-  Word = mongoose.model('Word', wordSchema);
+  Word = mongoose.model<IUser>('Word', wordSchema);
 }
 
 export default Word;
