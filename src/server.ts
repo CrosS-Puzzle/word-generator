@@ -1,8 +1,9 @@
-import { Application, RequestHandler } from 'express';
-import Controller from './controllers/controller';
 import http from 'http';
-import MongoConfig from './config/mongoose.config';
+import { Application, RequestHandler } from 'express';
 import { ConnectOptions } from 'mongoose';
+
+import Controller from './controllers/controller';
+import MongoConfig from './mongoose.config';
 import { MONGODB_DBNAME, MONGODB_URI } from './config';
 
 export class Server {

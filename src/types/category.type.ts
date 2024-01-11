@@ -1,0 +1,6 @@
+export enum Category {
+  NETWORK = "NETWORK",
+  DATABASE = "DATABASE",
+  DS = "DATA STRUCTURE",
+  ALGORITHM = "ALGORITHM",
+}
