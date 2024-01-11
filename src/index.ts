@@ -1,7 +1,27 @@
-import App from './app';
+import express, { RequestHandler, json, urlencoded } from 'express';
+import { Server } from './server';
+import Controller from './controllers/controller';
+import { TestController } from './controllers/test/test.controller';
+import cors from 'cors';
+import { PORT } from './config';
 
-const port: number = 3000;
+const port: number = PORT;
 
-App.listen(port, () => {
-  console.log(`App listening on the port ${port}`);
-})
+const app = express();
+const server = new Server(app, port);
+
+const controllers: Array<Controller> = [new TestController()];
+
+const globalMiddleware: Array<RequestHandler> = [
+  urlencoded({ extended: true, limit: '50mb' }),
+  json(),
+  cors(),
+];
+
+Promise.resolve().then(() => {
+  server.initDatabase().then(() => {
+    server.loadGlobalMiddleware(globalMiddleware);
+    server.loadControllers(controllers);
+    server.run();
+  });
+});

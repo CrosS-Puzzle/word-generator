@@ -1,3 +1,6 @@
+import { OPENAI_API_KEY } from '../config';
+import { WordRepository } from '../repositories/\bword.repository';
+
 interface IOpenAIResponse {
   id: string;
   object: string;
@@ -22,7 +25,7 @@ interface IOpenAIResponse {
 
 interface IMessage {
   role: string;
-  content: string;
+  content: any;
 }
 
 export class WordService {
@@ -37,7 +40,7 @@ export class WordService {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${process.env.OPEN_AI_API_KEY}`,
+        Authorization: `Bearer ${OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
         messages: messages,
@@ -49,9 +52,30 @@ export class WordService {
 
     const resultToJson: IOpenAIResponse = await result.json();
 
-    const words = resultToJson.choices[0].message.content;
+    const content = resultToJson.choices[0].message.content;
 
-    return this.parseWord(words);
+    const parsedContent: {
+      result: [
+        {
+          value: string;
+          desc: string;
+        },
+      ];
+    } = this.parseWord(content);
+
+    // console.log(parsedWords);
+    const wordList = parsedContent.result;
+
+    for await (const word of wordList) {
+      const { value, desc } = word;
+      // this.wordRepo.create({
+      //   value,
+      //   category: 'design-pattern',
+      //   description: desc,
+      // });
+    }
+
+    return 'success';
   }
 
   private parseWord(input: string) {

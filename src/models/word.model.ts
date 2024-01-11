@@ -1,20 +1,18 @@
 import mongoose from 'mongoose';
 
-import { Category } from '../types/category';
-
-interface IUser {
+export interface IWord extends mongoose.Document {
   value: string;
-  category: Category;
+  category: string;
   description: string;
 }
 
-const wordSchema = new mongoose.Schema<IUser>({
+const wordSchema = new mongoose.Schema<IWord>({
   value: {
     type: String,
     required: true,
   },
   category: {
-    type: Category,
+    type: String,
     required: true,
   },
   description: {
@@ -28,7 +26,7 @@ let Word: any = null;
 if (mongoose.models.Word !== undefined) {
   Word = mongoose.models.Word;
 } else {
-  Word = mongoose.model<IUser>('Word', wordSchema);
+  Word = mongoose.model<IWord>('Word', wordSchema);
 }
 
 export default Word;
