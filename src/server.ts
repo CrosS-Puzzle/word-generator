@@ -3,7 +3,7 @@ import { Application, RequestHandler } from 'express';
 import { ConnectOptions } from 'mongoose';
 
 import Controller from './controllers/controller';
-import MongoConfig from './mongoose.config';
+import MongoConfig from './config/mongoose.config';
 import { MONGODB_DBNAME, MONGODB_URI } from './config';
 
 export class Server {
