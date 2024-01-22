@@ -15,4 +15,12 @@ export class WordRepository {
   async createMany(words: IWord[]) {
     return await this.wordModel.insertMany<IWord>(words);
   }
+
+  async findAll() {
+    return await this.wordModel.find({});
+  }
+
+  async isExist(value: string) {
+    return await this.wordModel.exists({ value });
+  }
 }
