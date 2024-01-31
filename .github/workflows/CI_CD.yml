@@ -64,5 +64,5 @@ jobs:
     - name: Docker Run
       run: |
         cd ~
-        sudo sh deploy-wordGen.sh
+        sudo sh ./deploy-wordGen.sh
       
