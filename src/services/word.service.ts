@@ -34,7 +34,7 @@ interface IWord {
 export class WordService {
   private temperature: number;
 
-  constructor(temperature: number = 1.10) {
+  constructor(temperature: number = 1.1) {
     this.temperature = temperature;
   }
 
@@ -43,6 +43,7 @@ export class WordService {
       await this.loadACat(category, count);
     }
 
+    console.log('>> Done(loadAllCat): load completed');
     return;
   }
 
@@ -64,6 +65,8 @@ export class WordService {
       await wordRepository.create(word as Mongo_IWord);
     }
 
+    console.log(`>> Done (loadACat): Cat = ${category}`);
+    console.log(`>> Number of newly created words: ${filteredWords.length}`)
     return;
   }
 
