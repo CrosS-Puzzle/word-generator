@@ -1,5 +1,5 @@
 export class TestService {
   public performTest(): string {
-    return 'Health Checked';
+    return 'OK';
   }
 }

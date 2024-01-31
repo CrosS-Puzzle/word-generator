@@ -24,7 +24,7 @@ export class WordController extends Controller {
       method: Methods.POST,
       handler: this.generateWordByCat,
       localMiddleware: [],
-    }
+    },
   ];
 
   constructor() {
@@ -36,17 +36,24 @@ export class WordController extends Controller {
       const { count } = req.body;
 
       if (!count) {
-        res.status(400).send('count is required');
+        res.status(400).send({
+          message: 'Request body must contain count',
+        });
         return;
       }
 
       const wordService = new WordService(1.1);
       await wordService.loadAllCat(count);
 
-      res.status(200).send('done');
+      res.status(200).send({
+        message: 'success',
+      });
       return;
     } catch (error: any) {
-      res.status(500).send(error);
+      res.status(500).send({
+        message: 'Internal server error',
+        error,
+      });
       console.log('[ERROR_generateWord]', error);
     }
   }
@@ -56,22 +63,32 @@ export class WordController extends Controller {
       const { count, category } = req.body;
 
       if (!count || !category) {
-        res.status(400).send('count and category are required');
+        res.status(400).send({
+          message: 'Request body must contain count and category',
+        });
         return;
       }
 
       if (!Object.values(Category).includes(category)) {
-        res.status(400).send('invalid category');
+        res.status(400).send({
+          message: 'Invalid category. Check available category',
+          AvailableCategory: Object.values(Category),
+        });
         return;
       }
 
       const wordService = new WordService(1.1);
       await wordService.loadACat(category, count);
 
-      res.status(200).send('done');
+      res.status(200).send({
+        message: 'success',
+      });
       return;
     } catch (error: any) {
-      res.send(500).send(error);
+      res.send(500).send({
+        message: 'Internal server error',
+        error,
+      });
       console.log('[ERROR_generateWordByCat]', error);
     }
   }
@@ -83,7 +100,10 @@ export class WordController extends Controller {
       res.status(200).send(testService.performTest());
       return;
     } catch (error: any) {
-      res.status(500).send(error);
+      res.status(500).send({
+        message: 'Internal server error',
+        error,
+      });
       console.log('[ERROR_healthCheck]', error);
     }
   }

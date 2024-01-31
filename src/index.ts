@@ -1,7 +1,6 @@
 import express, { RequestHandler, json, urlencoded } from 'express';
 import { Server } from './server';
 import Controller from './controllers/controller';
-import { TestController } from './controllers/test/test.controller';
 import cors from 'cors';
 import { PORT } from './config';
 import { WordController } from './controllers/word/word.controller';
@@ -12,7 +11,6 @@ const app = express();
 const server = new Server(app, port);
 
 const controllers: Array<Controller> = [
-  new TestController(),
   new WordController(),
 ];
 
