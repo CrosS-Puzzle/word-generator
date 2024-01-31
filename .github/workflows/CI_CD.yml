@@ -61,8 +61,14 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
         aws-region: ${{ secrets.AWS_REGION }}
 
-    - name: Docker Run
-      run: |
-        cd ~
-        sudo sh ./deploy-wordGen.sh
+    - name: Access EC2 instance
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST_ADDRESS }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: 22
+        script: |
+          cd ~
+          sudo ./deploy-wordGen.sh
       
