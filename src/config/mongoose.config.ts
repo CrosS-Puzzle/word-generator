@@ -13,7 +13,7 @@ class MongoManager {
       this.connection = await mongoose.connect(uri, { ...options });
       console.log('>> MongoDB connected.');
     } catch (error) {
-      console.log('[MONGODB_Error] MongoDB connect failed. ', error);
+      console.log('[ERROR_MONGO_CONNECT]', error);
     }
   }
 
@@ -24,7 +24,7 @@ class MongoManager {
         console.log('>> MongoDB disconnected.');
       }
     } catch (error) {
-      console.log('[MONGODB_Error] MongoDB disconnect failed. ', error);
+      console.log('[ERROR_MONGO_DISCONNECT]', error);
     }
   }
 }

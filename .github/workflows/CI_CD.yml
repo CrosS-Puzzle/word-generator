@@ -9,12 +9,6 @@ on:
   pull_request:
     branches: [ "main" ]
 
-env:
-  PORT_NUM: ${{ secrets.PORT_NUM }}
-  OPEN_AI_API_KEY: '${{ secrets.OPEN_AI_API_KEY }}'
-  MONGODB_URI: '${{ secrets.MONGODB_URI }}'
-  MONGODB_DBNAME: '${{ secrets.MONGODB_DBNAME }}'
-
 jobs:
   ci:
 
