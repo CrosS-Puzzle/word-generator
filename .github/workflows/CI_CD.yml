@@ -29,7 +29,14 @@ jobs:
       with:
         node-version: 20
 
-    - name : Install Dependencies
+    - name: Make .env
+      run: |
+        echo "PORT_NUM=${{ secrets.PORT_NUM }}" > .env
+        echo "OPEN_AI_API_KEY='${{ secrets.OPEN_AI_API_KEY }}'" >> .env
+        echo "MONGODB_URI='${{ secrets.MONGODB_URI }}'" >> .env
+        echo "MONGODB_DBNAME='${{ secrets.MONGODB_DBNAME }}'" >> .env
+        
+    - name: Install Dependencies
       run: yarn install
 
     - name: Build Application
