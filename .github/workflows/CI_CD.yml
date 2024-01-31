@@ -12,17 +12,17 @@ on:
 env:
   PORT_NUM: ${{ secrets.PORT_NUM }}
   OPEN_AI_API_KEY: '${{ secrets.OPEN_AI_API_KEY }}'
-  MONGODB_URI: '${{ MONGODB_URI }}'
-  MONGODB_DBNAME: '${{ MONGODB_DBNAME }}'
+  MONGODB_URI: '${{ secrets.MONGODB_URI }}'
+  MONGODB_DBNAME: '${{ secrets.MONGODB_DBNAME }}'
 
 jobs:
-  build:
+  ci:
 
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout Repository
-    - uses: actions/checkout@v3
+      uses: actions/checkout@v3
     
     - name: Use Node.js
       uses: actions/setup-node@v3
@@ -45,6 +45,30 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
 
     - name : Docker Build & Push
-    - run : |
+      run: |
         docker build -t pmthk/word-generator .
         docker push pmthk/word-generator
+
+  deploy: 
+    needs: ci
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
+        aws-region: ${{ secrets.AWS_REGION }}
+
+    - name: Access EC2 instance
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST_ADDRESS }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: 22
+        script: |
+          cd ~
+          sudo ./deploy-wordGen.sh
+      
