@@ -22,13 +22,6 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: 20
-
-    - name: Make .env
-      run: |
-        echo "PORT_NUM=${{ secrets.PORT_NUM }}" > .env
-        echo "OPEN_AI_API_KEY='${{ secrets.OPEN_AI_API_KEY }}'" >> .env
-        echo "MONGODB_URI='${{ secrets.MONGODB_URI }}'" >> .env
-        echo "MONGODB_DBNAME='${{ secrets.MONGODB_DBNAME }}'" >> .env
         
     - name: Install Dependencies
       run: yarn install
@@ -71,5 +64,10 @@ jobs:
         port: 22
         script: |
           cd ~
+          sudo rm -rf .env
+          echo "PORT_NUM=${{ secrets.PORT_NUM }}" > .env
+          echo "OPEN_AI_API_KEY='${{ secrets.OPEN_AI_API_KEY }}'" >> .env
+          echo "MONGODB_URI='${{ secrets.MONGODB_URI }}'" >> .env
+          echo "MONGODB_DBNAME='${{ secrets.MONGODB_DBNAME }}'" >> .env
           sudo ./deploy-wordGen.sh
       
