@@ -16,7 +16,7 @@ env:
   MONGODB_DBNAME: '${{ secrets.MONGODB_DBNAME }}'
 
 jobs:
-  build:
+  ci:
 
     runs-on: ubuntu-latest
 
@@ -45,6 +45,24 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
 
     - name : Docker Build & Push
-      run : |
+      run: |
         docker build -t pmthk/word-generator .
         docker push pmthk/word-generator
+
+  deploy: 
+    needs: ci
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
+        aws-region: ${{ secrets.AWS_REGION }}
+
+    - name: Docker Run
+      run: |
+        cd ~
+        sudo ./deploy-wordGen.sh
+      
