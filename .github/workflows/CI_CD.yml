@@ -45,6 +45,6 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
 
     - name : Docker Build & Push
-    - run : |
+      run : |
         docker build -t pmthk/word-generator .
         docker push pmthk/word-generator
