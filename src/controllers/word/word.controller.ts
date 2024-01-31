@@ -11,6 +11,12 @@ export class WordController extends Controller {
       handler: this.triggerWordGeneration,
       localMiddleware: [],
     },
+    {
+      path: '/health',
+      method: Methods.GET,
+      handler: this.health,
+      localMiddleware: [],
+    }
   ];
 
   constructor() {
@@ -29,5 +35,9 @@ export class WordController extends Controller {
       res.status(500).send(error);
       console.log(error);
     }
+  }
+  
+  async health(req: Request, res: Response): Promise<void> {
+    res.status(200).send('OK');
   }
 }
